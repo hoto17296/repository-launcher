@@ -14,7 +14,20 @@
       "all": false,
       "shell": {
         "all": false,
-        "open": true
+        "execute": true,
+        "open": true,
+        "scope": [
+          {
+            "name": "code",
+            "cmd": "code",
+            "args": [{ "validator": ".+" }]
+          },
+          {
+            "name": "ghq",
+            "cmd": "ghq",
+            "args": [{ "validator": "(list|root)" }]
+          }
+        ]
       }
     },
     "bundle": {
