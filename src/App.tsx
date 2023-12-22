@@ -11,18 +11,14 @@ function App() {
   const [repositories, setRepositories] = useState<Repository[]>()
 
   useEffect(() => {
-    GHQ.list()
-      .then((list) =>
-        setRepositories(
-          list.map<Repository>((line) => ({
-            path: line,
-            favorite: favorites.has(line),
-          }))
-        )
-      )
-      .catch((error) => {
-        console.error(error)
-      })
+    async function initialize() {
+      const repositories = (await GHQ.list()).map<Repository>((line) => ({
+        path: line,
+        favorite: favorites.has(line),
+      }))
+      setRepositories(repositories)
+    }
+    initialize()
     return () => {}
   }, [])
 
