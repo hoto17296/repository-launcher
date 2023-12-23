@@ -1,2 +1,10 @@
-.IncrementalSearch {
+.IncrementalSearch > form {
+  padding: 0.5em;
+}
+
+.IncrementalSearch > form > input {
+  width: 100%;
+  padding: 0.7em 0.5em;
+  border: 1px #ccc solid;
+  border-radius: 0.5em;
 }

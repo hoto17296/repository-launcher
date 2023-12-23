@@ -44,18 +44,19 @@ function App() {
       <IncrementalSearch
         items={repositories}
         renderItem={(repository, selected) => {
+          const classNames = [style.item]
+          if (selected) classNames.push(style.selected)
+          if (repository.favorite) classNames.push(style.favorite)
           return (
-            <>
+            <div className={classNames.join(' ')}>
               <a
-                onClick={() => onSubmit(repository)}
-                style={{ fontWeight: selected ? 'bold' : 'normal' }}
+                className={style.favoriteButton}
+                onClick={() => toggleFavorite(repository)}
               >
-                {repository.path}
+                {repository.favorite ? '★' : '☆'}
               </a>
-              <a onClick={() => toggleFavorite(repository)}>
-                [{repository.favorite ? 'Unfavorite' : 'Favorite'}]
-              </a>
-            </>
+              <span>{repository.path.replaceAll('/', ' / ')}</span>
+            </div>
           )
         }}
         filter={(repository, words) => {

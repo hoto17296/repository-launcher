@@ -1,2 +1,28 @@
-.App {
+.item {
+  margin: 0 0.5em;
+  padding: 0.5em;
+  color: #333;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0.3em;
+}
+
+.item.selected {
+  background-color: aliceblue;
+  font-weight: bold;
+}
+
+.item:hover {
+  background-color: #eee;
+}
+
+.item .favoriteButton {
+  color: lightgray;
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+
+.item.favorite .favoriteButton {
+  color: orange;
 }
