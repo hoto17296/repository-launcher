@@ -41,11 +41,19 @@ const IncrementalSearch = <T,>({
             switch (event.code) {
               case 'ArrowUp':
                 event.preventDefault()
-                setSelectedIndex((value) => (value === null ? 0 : value - 1))
+                setSelectedIndex((value) => {
+                  if (value === null) return 0
+                  if (value - 1 < 0) return filteredItems.length - 1
+                  return value - 1
+                })
                 break
               case 'ArrowDown':
                 event.preventDefault()
-                setSelectedIndex((value) => (value === null ? 0 : value + 1))
+                setSelectedIndex((value) => {
+                  if (value === null) return 0
+                  if (value + 1 >= filteredItems.length) return 0
+                  return value + 1
+                })
                 break
               case 'Escape':
                 event.preventDefault()
