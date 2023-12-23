@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import style from './App.module.css'
+import IncrementalSearch from './components/IncrementalSearch'
 import Code from './lib/code'
 import GHQ from './lib/ghq'
 import { PersistentSet } from './lib/storage'
@@ -33,24 +34,39 @@ function App() {
     setRepositories((state) => state && [...state])
   }
 
+  async function onSubmit(repository: Repository | null) {
+    if (!repository) return
+    Code.open(`${await GHQ.root()}/${repository.path}`)
+  }
+
   return (
     <main className={style.App}>
-      <ul>
-        {repositories.map((repository) => (
-          <li key={repository.path}>
-            <a
-              onClick={async () =>
-                Code.open(`${await GHQ.root()}/${repository.path}`)
-              }
-            >
-              {repository.path}
-            </a>
-            <a onClick={() => toggleFavorite(repository)}>
-              [{repository.favorite ? 'Unfavorite' : 'Favorite'}]
-            </a>
-          </li>
-        ))}
-      </ul>
+      <IncrementalSearch
+        items={repositories}
+        renderItem={(repository, selected) => {
+          return (
+            <>
+              <a
+                onClick={() => onSubmit(repository)}
+                style={{ fontWeight: selected ? 'bold' : 'normal' }}
+              >
+                {repository.path}
+              </a>
+              <a onClick={() => toggleFavorite(repository)}>
+                [{repository.favorite ? 'Unfavorite' : 'Favorite'}]
+              </a>
+            </>
+          )
+        }}
+        filter={(repository, words) => {
+          const value = repository.path.toLowerCase()
+          for (const filterWord of words) {
+            if (!value.includes(filterWord.toLowerCase())) return false
+          }
+          return true
+        }}
+        onSubmit={onSubmit}
+      />
     </main>
   )
 }
