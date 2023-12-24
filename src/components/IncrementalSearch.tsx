@@ -5,6 +5,7 @@ interface IncrementalSearchProps<T> {
   items: T[]
   renderItem: (item: T, selected: boolean) => ReactNode
   filter: (item: T, words: string[]) => boolean
+  sortCompare?: (a: T, b: T) => number
   onSubmit: (item: T) => void
 }
 
@@ -12,6 +13,7 @@ const IncrementalSearch = <T,>({
   items,
   renderItem,
   filter,
+  sortCompare,
   onSubmit,
 }: React.PropsWithChildren<IncrementalSearchProps<T>>) => {
   const [query, setQuery] = useState<string>('')
@@ -66,7 +68,7 @@ const IncrementalSearch = <T,>({
       </form>
       {filteredItems.length > 0 ? (
         <ul>
-          {filteredItems.map((item, index) => (
+          {filteredItems.sort(sortCompare).map((item, index) => (
             <li key={index}>{renderItem(item, index === selectedIndex)}</li>
           ))}
         </ul>

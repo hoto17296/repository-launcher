@@ -66,6 +66,11 @@ function App() {
           }
           return true
         }}
+        sortCompare={(a, b) => {
+          if (a.favorite !== b.favorite)
+            return Number(b.favorite) - Number(a.favorite)
+          return a.path.localeCompare(b.path)
+        }}
         onSubmit={onSubmit}
       />
     </main>
